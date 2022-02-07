@@ -1,0 +1,1 @@
+This project is an extenison of the scripts written in my Spotifynstuff repository. I intend to create a simple UI to make the playlist and imports of song be onscreen. It is clear that spotify is far more advanced when it comes to this UI yet I believe this displays my skillset and extends my knowledge of back end and front end development.
