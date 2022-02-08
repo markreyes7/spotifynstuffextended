@@ -49,9 +49,9 @@ function App() {
   return (
     <main>
       <Container>
-        <Navbar bg='light'>
-          <Navbar.Brand>SpotifyNStuff</Navbar.Brand>
-          <Button onClick={() =>{setShowModal(!showModal)}}>Click to display random playlist</Button>
+        <Navbar bg='success' variant='dark'>
+          <Navbar.Brand color='white'>SpotifyNStuff</Navbar.Brand>
+          <Button variant='light' onClick={() =>{setShowModal(!showModal)}}>Click to display random playlist</Button>
         </Navbar>
       </Container>
       <section class="py-5 text-center container">
@@ -59,7 +59,7 @@ function App() {
           <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">Album example</h1>
             <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-          <p> <Button onClick={ async () =>{
+          <Row> <Button variant='success' onClick={ async () =>{
                 const response = await fetch("/long_term_artists").then(res => res.json()
                 .then(artists => {
                   setArtists(artists)
@@ -70,7 +70,7 @@ function App() {
                   console.log("yay")
                 }
               }}>Favorites Over The Years</Button>
-              <Button onClick={ async () =>{
+              <Button variant='success' onClick={ async () =>{
                 const response = await fetch("/medium_term_artists").then(res => res.json()
                 .then(artists => {
                   setArtists(artists)
@@ -81,7 +81,7 @@ function App() {
                   console.log("yay")
                 }
               }}>Favorites From Last Year</Button>
-              <Button onClick={
+              <Button variant='success' onClick={
                 async () =>{
                   const response = await fetch("/short_term_artists").then(res => res.json()
                   .then(artists => {
@@ -94,7 +94,7 @@ function App() {
                   }
                 }
               }>The last 4 weeks</Button>
-           </p>
+           </Row>
          </div>
           </div>
       </section>
@@ -102,8 +102,8 @@ function App() {
       <Container>
         <Row>
       
-        <Col>
-          <Card style={{width: '18rem'}}>
+        <Col >
+          <Card text='white' bg='success' style={{width: '16rem'}}>
             <Card.Img src={artists.artists_images[0]}></Card.Img>
               <Card.Body>
                 <Card.Title>{artists.artists_list[0]}</Card.Title>
@@ -111,19 +111,17 @@ function App() {
           </Card>
         </Col>
         
-        <Col>
-          <Card style={{width: '18rem'}}>
+        <Col  >
+          <Card bg='dark' text='white' style={{width: '16rem'}}>
             <Card.Img src={artists.artists_images[1]}></Card.Img>
               <Card.Body>
                 <Card.Title>{artists.artists_list[1]}</Card.Title>
             </Card.Body>
           </Card>
         </Col>
-      
-      </Row>
-      <Row>
-      <Col>
-          <Card style={{width: '18rem'}}>
+
+        <Col >
+          <Card text='white' bg='success' style={{width: '16rem'}}>
             <Card.Img src={artists.artists_images[2]}></Card.Img>
               <Card.Body>
                 <Card.Title>{artists.artists_list[2]}</Card.Title>
@@ -132,7 +130,7 @@ function App() {
         </Col>
         
         <Col>
-          <Card style={{width: '18rem'}}>
+          <Card bg='dark' text='white' style={{width: '16rem'}}>
             <Card.Img src={artists.artists_images[3]}></Card.Img>
               <Card.Body>
                 <Card.Title>{artists.artists_list[3]}</Card.Title>
@@ -141,14 +139,16 @@ function App() {
         </Col>
         
         <Col>
-          <Card style={{width: '18rem'}}>
+          <Card text='white'  bg='success'  style={{width: '16rem'}}>
             <Card.Img src={artists.artists_images[4]}></Card.Img>
               <Card.Body>
                 <Card.Title>{artists.artists_list[4]}</Card.Title>
             </Card.Body>
           </Card>
         </Col>
+      
       </Row>
+      
       </Container>
     )
     )}
