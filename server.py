@@ -8,12 +8,14 @@ import spotipy
 from flask import Flask, jsonify, request
 from spotipy.oauth2  import SpotifyOAuth
 import random
-
+import datetime
 app = Flask(__name__)
+
+
 
 scope = 'playlist-read-private playlist-read-collaborative user-top-read'
 
-#TODO:FIX close_connection bugs and fix open connection bug.
+
 
 connection = psycopg2.connect(user=os.environ['USER'],
                               password=os.environ['PASSWORD'],
@@ -42,17 +44,50 @@ def playlist():
     print("yessir")
     return jsonify({"members": songs})
 
+
 @app.route("/removesong", methods=['POST'])
 def removesong():
-    song_to_delete = request.json
-    song = song_to_delete['track']  
-    curr_playlist = spotify.playlist_items(os.environ['PLAYLIST_ID'])
-    items = curr_playlist['items']
-    track = items[int(song) - 1]['track']
-    song_to_remove = track['uri']
+    cursor = connection.cursor()
 
-    spotify.playlist_remove_specific_occurrences_of_items(os.environ['PLAYLIST_ID'],
+    def get_genres(artist_id):
+        curr_artist = spotify.artist(artist_id)
+        genres = curr_artist["genres"]
+        return genres
+
+
+    def import_deleted_to_db(track):
+        postgres_insert_query = """INSERT INTO artist (artist_name, song_name, make_date ,listened, genre, artist_id) VALUES (
+                %s, %s, %s, %s, %s, %s) """
+        song_listen_time = datetime.datetime.now()
+        artist_name = track['artists'][0]['name']
+        print("name is " + artist_name)
+        artist_id = track['artists'][0]['id']
+        print("id is " + artist_id)
+        genres = get_genres(artist_id)
+        song_name = track['name']
+        print("song was " + song_name)
+        record_to_insert = (artist_name, song_name, song_listen_time, True, genres, artist_id)
+        cursor.execute(postgres_insert_query, record_to_insert)
+        connection.commit()
+        print("The artist was inserted")
+        
+
+
+    try:
+        song_to_delete = request.json
+        song = song_to_delete['track']  
+        curr_playlist = spotify.playlist_items(os.environ['PLAYLIST_ID'])
+        items = curr_playlist['items']
+        track = items[int(song) - 1]['track']
+        song_to_remove = track['uri']
+
+        spotify.playlist_remove_specific_occurrences_of_items(os.environ['PLAYLIST_ID'],
                                                           [{"uri": song_to_remove, "positions": [int(song) - 1]}])
+        import_deleted_to_db(track)
+        cursor.close()
+    except:
+        print("too big")
+        return "bad boy", 400
 
     return "Done", 201
 
@@ -117,9 +152,16 @@ def close_connection_cursor():
     return "Done", 201
 
     
-@app.route("/long_term_artists")
+@app.route("/long_term_artists", methods=['POST'])
 def long_term_artists():
-    spotify_request_artist = spotify.current_user_top_artists(limit=5, offset=0, time_range='long_term')
+
+    request_from_client = request.json
+    artist_count = request_from_client['count']
+    
+    if artist_count == 0:
+        artist_count =8
+
+    spotify_request_artist = spotify.current_user_top_artists(limit=artist_count, offset=0, time_range='long_term')
     artists = spotify_request_artist['items']
     artist_list = []
     image_list = []
@@ -137,9 +179,16 @@ def long_term_artists():
     return jsonify({"artists_list": artist_list,
                     "artists_images": images_to_return})
 
-@app.route("/medium_term_artists")
+@app.route("/medium_term_artists", methods=['POST'])
 def medium_term_artists():
-    spotify_request_artist = spotify.current_user_top_artists(limit=5, offset=0, time_range='medium_term')
+
+    request_from_client = request.json
+    artist_count = request_from_client['count']
+    
+    if artist_count == 0:
+        artist_count =8
+
+    spotify_request_artist = spotify.current_user_top_artists(limit=artist_count, offset=0, time_range='medium_term')
     artists = spotify_request_artist['items']
     artist_list = []
     image_list = []
@@ -158,9 +207,14 @@ def medium_term_artists():
                     "artists_images": images_to_return})
 
 
-@app.route("/short_term_artists")
+@app.route("/short_term_artists", methods=['POST'])
 def short_term_artists():
-    spotify_request_artist = spotify.current_user_top_artists(limit=5, offset=0, time_range='short_term')
+    request_from_client = request.json
+    artist_count = request_from_client['count']
+    if artist_count == 0:
+        artist_count =8
+
+    spotify_request_artist = spotify.current_user_top_artists(limit=artist_count, offset=0, time_range='short_term')
     artists = spotify_request_artist['items']
     artist_list = []
     image_list = []
