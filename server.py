@@ -38,11 +38,15 @@ def playlist():
     for count, value in enumerate(items):
         playlist.append(items[count])
     songs = []
+    names = []
     for track in playlist:
         songs.append(track["track"]["name"])
-    # song_name = playlist["track"]["name"]
+    
+    for artist in playlist:
+        names.append(artist["track"]["artists"][0]["name"])
     print("yessir")
-    return jsonify({"members": songs})
+    return jsonify({"members": songs,
+                    "artist_names": names})
 
 
 @app.route("/removesong", methods=['POST'])
@@ -86,8 +90,7 @@ def removesong():
         import_deleted_to_db(track)
         cursor.close()
     except:
-        print("too big")
-        return "bad boy", 400
+        return "bad", 400
 
     return "Done", 201
 

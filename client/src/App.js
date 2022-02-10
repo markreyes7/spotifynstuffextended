@@ -49,19 +49,22 @@ function App() {
   },[])
 
   return (
-    <main>
-      <Container fluid>
-        <Navbar bg='success' variant='dark'>
+    <Container className='custom-sizing' fluid>
+      
+        <Navbar bg='dark' variant='dark'>
+          <Container>
           <Navbar.Brand color='white'>SpotifyNStuff</Navbar.Brand>
-          <Button variant='light' onClick={() =>{setShowModal(!showModal)}}>Click to display random playlist</Button>
+          </Container>
+         
+          <Button size='sm' variant='light' onClick={() =>{setShowModal(!showModal)}}>Click to display random playlist</Button>
         </Navbar>
-      </Container>
+      
       <section class="py-5 text-center container">
         <div class="row py-lg-5">
           <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">Album example</h1>
             <p class="lead text-muted">Based on your spotify informationa and data, enter a number to get some of my favorite artists of all time, from the last year, or last couple of weeks. Click the top button to get my current random playlist and feel free to add a track or delete a random track. These tracks came from songs that do not exist in my personal database.</p>
-          <Row> <Button variant='success' onClick={
+          <Row> <Button variant='dark' onClick={
                 async () =>{
                   const num = {count}
                   const response = await fetch("/long_term_artists",{
@@ -79,7 +82,7 @@ function App() {
                   }
                 }
               }>Favorites Over The Years</Button>
-              <Button variant='success' onClick={
+              <Button variant='dark' onClick={
                 async () =>{
                   const num = {count}
                   const response = await fetch("/medium_term_artists",{
@@ -93,11 +96,11 @@ function App() {
                   
                   ))
                   if(response.ok){
-                    console.log("yay")
+                    
                   }
                 }
               }>Favorites From Last Year</Button>
-              <Button variant='success' onClick={
+              <Button variant='dark' onClick={
                 async () =>{
                   const num = {count}
                   const response = await fetch("/short_term_artists",{
@@ -111,7 +114,7 @@ function App() {
                   
                   ))
                   if(response.ok){
-                    console.log("yay")
+                    console.log("")
                   }
                 }
               }>The last 4 weeks</Button>
@@ -129,8 +132,8 @@ function App() {
       {((typeof artists.artists_list === 'undefined') ? (<p>Loading</p>):(
         <Row>
           {artists.artists_list.map((artist, i) => 
-          <Col >
-            <Card text='white' bg='success' style={{width: '16rem'}} >
+          <Col style={{marginBottom: "10px "}} >
+            <Card text='white' bg='dark' style={{width: '16rem'}} >
             <Card.Body>
             <Card.Img src={artists.artists_images[i]}></Card.Img>
                 <Card.Title>{artist}</Card.Title>
@@ -150,12 +153,12 @@ function App() {
         setShowModal(!showModal);
       }}>
         <Modal.Header closeButton>
-          <Modal.Title>Remove a song</Modal.Title>
+          <Modal.Title>SpotifyNStuff</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ListGroup numbered={true}>
+          <ListGroup as='ol' numbered>
             {(typeof data.members === 'undefined') ? (<p>Loading....</p>) :
-            (data.members.map((member, i) => (<ListGroupItem key={i}>{member}</ListGroupItem>)))}
+            (data.members.map((member, i) => (<ListGroupItem as='li' key={i}>{member + " : " + data.artist_names[i]} </ListGroupItem>)) )}
           </ListGroup>
         </Modal.Body>
         
@@ -199,7 +202,7 @@ function App() {
           </Form>
         </Modal.Footer>
       </Modal>
-    </main>
+      </Container>
   );
 }
 

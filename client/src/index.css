@@ -16,3 +16,12 @@ code {
   display: flex;
   justify-content: center;
 }
+
+.custom-sizing:nth-child(1){
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+  
+}
