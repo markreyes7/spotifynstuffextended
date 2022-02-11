@@ -12,6 +12,16 @@ code {
     monospace;
 }
 
+body{
+  background: linear-gradient( 180deg, #1DB954 7%, 25%, #424349 50% ) !important; 
+}
+
+
+
+input{
+  border-radius: 15px !important;
+}
+
 .container .col{
   display: flex;
   justify-content: center;
@@ -24,4 +34,8 @@ code {
   padding-left: 0;
   padding-right: 0;
   
+}
+
+.p-color{
+  color: black;
 }
