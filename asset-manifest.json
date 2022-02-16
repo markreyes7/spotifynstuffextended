@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/spotifynstuffextended/static/css/main.424a9054.css",
+    "main.js": "/spotifynstuffextended/static/js/main.43b92911.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/spotifynstuffextended/static/js/787.c4e7f8f9.chunk.js",
+    "index.html": "/spotifynstuffextended/index.html",
+    "main.424a9054.css.map": "/spotifynstuffextended/static/css/main.424a9054.css.map",
+    "main.43b92911.js.map": "/spotifynstuffextended/static/js/main.43b92911.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/spotifynstuffextended/static/js/787.c4e7f8f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.424a9054.css",
+    "static/js/main.43b92911.js"
+  ]
+}
